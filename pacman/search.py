@@ -86,6 +86,29 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+    Stack = util.Stack();
+    visitados = []
+    estadoinicial = (problem.getEstadoInicial(), [])
+    Stack.push(estadoinicial)
+
+    while Stack.isEmpty():
+        remove = Stack.pop()
+        posicao = remove[0]
+        caminho = remove[1]
+
+        if posicao not in visitados:
+            visitados.append(posicao)
+
+            if problem.isGoalState(posicao):
+                return caminho
+
+            sucessores = problem.getSucessores(posicao)
+
+            for sucessores in list(sucessores):
+                if sucessores[0] not in (sucessores):
+                    if sucessores[0] not in visitados:
+                        Stack.push((sucessores[0],caminho + [sucessores[1]]))
+
     util.raiseNotDefined()
 
 
@@ -95,6 +118,27 @@ def breadthFirstSearch(problem):
     DICA: Utilizar util.PriorityQueue
     *** YOUR CODE HERE ***
     """
+    fila = util.Queue()
+    visitados = []
+    estadoinicial = (problem.getEstadoInicial(), [])
+    fila.push(estadoinicial)
+
+    while not fila.isEmpty():
+        remover = fila.pop()
+        posicao = remover[0]
+        caminho = remover[1]
+
+        if posicao not in visitados:
+            visitados.append(posicao)
+
+            if problem.isgoalstart(posicao):
+                return caminho
+            sucessores = problem.getSucessores(posicao)
+
+            for sucessores in list(sucessores):
+                if sucessores[0] not in visitados:
+                    fila.push((sucessores[0], caminho + [sucessores[1]]))
+
     util.raiseNotDefined()
 
     
@@ -102,6 +146,24 @@ def uniformCostSearch(problem):
     """Search the node of least total cost first.
     *** YOUR CODE HERE ***
     """
+    lista = util.PriorityQueue()
+    visitados = []
+    estadoinicial = (problem.getEstadoInicial())
+    acao = []
+    custo = 0
+    lista.push((estadoinicial, acao, custo), custo)
+
+    while not lista.isEmpty():
+        remover = lista.pop()
+
+        if problem.isgoalEstado(remover[0]):
+            return remover[1]
+        if remover[0] not in visitados:
+            visitados[remover[0]] = True
+
+            for sucessores, atual, chegando in problem.getSucesores(remover[0]):
+                lista.push((sucessores, remover[1] + [atual], remover[2] + chegando), remover[2] + chegando)
+
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -114,6 +176,26 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+    lista = util.PriorityQueue()
+    visitados = []
+    estadoinicial = (problem.getEstadoInicial())
+    acao = []
+    custo = 0
+    lista.push((estadoinicial, acao, custo), custo)
+
+    while not lista.isEmpty():
+        remover = lista.pop()
+
+        if problem.isgoalEstado(remover[0]):
+            return remover[1]
+        if remover[0] not in visitados:
+            visitados[remover[0]] = True
+
+            for sucessores, atual, chegandono in problem.getSucesores(remover[0]):
+                if sucessores and sucessores not in visitados:
+                    lista.push((sucessores, remover[1] + [atual], remover[2] + chegandono),
+                               remover[2] + chegandono + heuristic(sucessores, problem))
+
     util.raiseNotDefined()
 
 
