@@ -176,7 +176,7 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    lista = util.PriorityQueue()
+    lista = util.PriorityQueueWithFunction()
     visitados = []
     estadoinicial = (problem.getEstadoInicial())
     acao = []
